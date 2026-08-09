@@ -60,7 +60,9 @@ app.use(
     },
   })
 );
-
+app.get('/',(req,res)=>{
+    res.send('Welcome to the Mini ERP Backend API');
+});
 app.use('/api/auth', authRouter);
 app.use('/api/test', testRouter);
 app.use('/api/customers', customerRouter);
