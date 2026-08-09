@@ -1,175 +1,119 @@
 Mini ERP + CRM Operations Portal
 
-A full-stack Mini ERP + CRM Operations Portal designed for awholesale/distribution business to manage customers, products,inventory, sales challans, and role-based operations.
+A full-stack Mini ERP + CRM Operations Portal designed for wholesale/distribution business to manage customers, products, inventory, sales challans, and role-based operations.
 
-The application provides separate access for Admin, Sales, Warehouse,and Accounts users with server-side session authentication androle-based authorization.
+The application provides separate access for Admin, Sales, Warehouse, and Accounts users with server-side session authentication and role-based authorization.
 
-Live Application
+## Live Application
 
-Frontend
+- Frontend: https://rams-erp.vercel.app
+- Backend API: https://mini-erp-crm-operations-portal-7jx.ro.onrender.com
 
-https://rams-erp.vercel.app
+## User Roles
 
-Backend API
+| Role | Main Responsibilities |
+| --- | --- |
+| Admin | Full access to customers, products, inventory, and challans |
+| Sales | Customer management, product viewing, and sales challan operations |
+| Warehouse | Product/inventory operations and read-only customer/challan access |
 
-https://mini-erp-crm-operations-portal-7jx.ro.onrender.com
+Authorization is enforced on the backend, while the frontend provides role-aware UI controls.
 
-User Roles
-
-Role                                Main Responsibilities
-
-Admin                           Full access to customers, products,inventory, and challans
-
-Sales                           Customer management, productviewing, and sales challanoperations
-
-Warehouse                       Product/inventory operations andread-only customer/challan access
-
-Authorization is enforced on the backend, while the frontendprovides role-aware UI controls.
-
-Test Credentials
+## Test Credentials
 
 These credentials are provided for evaluation and testing:
 
-Role        Email                     Password
+| Role | Email | Password |
+| --- | --- | --- |
+| Admin | admin@example.com | Admin123! |
+| Sales | sales@example.com | Sales123! |
+| Warehouse | warehouse@example.com | Warehouse123! |
+| Accounts | accounts@example.com | Accounts123! |
 
-Admin       admin@example.com       Admin123!Sales       sales@example.com       Sales123!Warehouse   warehouse@example.com   Warehouse123!Accounts    accounts@example.com    Accounts123!
+The selected role on the login screen must match the actual role assigned to the user.
 
-The selected role on the login screen must match the actual roleassigned to the user.
+## Features
 
-Features
+### 1. Authentication & Authorization
 
-1. Authentication & Authorization
+- Role-based login
+- Roles: Admin, Sales, Warehouse, Accounts
+- Server-side authentication using `express-session`
+- PostgreSQL-backed session storage using `connect-pg-simple`
+- Secure `HttpOnly` session cookie
+- Role-based backend authorization middleware
+- Protected frontend routes
+- Logout support
+- Session persistence across page refreshes
 
-Role-based login
-
-Roles:
-
-Admin
-
-Sales
-
-Warehouse
-
-Accounts
-
-Server-side authentication using express-session
-
-PostgreSQL-backed session storage using connect-pg-simple
-
-Secure HttpOnly session cookie
-
-Role-based backend authorization middleware
-
-Protected frontend routes
-
-Logout support
-
-Session persistence across page refreshes
-
-2. Customer CRM
+### 2. Customer CRM
 
 The Customer CRM module supports:
 
-Create customer
-
-Edit customer
-
-Delete customer
-
-Search customers
-
-Filter customers
-
-View customer details
-
-Customer status
-
-Customer type
-
-Follow-up date
-
-Follow-up notes
-
-Follow-up history
+- Create customer
+- Edit customer
+- Delete customer
+- Search customers
+- Filter customers
+- View customer details
+- Customer status
+- Customer type
+- Follow-up date
+- Follow-up notes
+- Follow-up history
 
 Customer types include:
 
-Retail
-
-Wholesale
-
-Distributor
+- Retail
+- Wholesale
+- Distributor
 
 Customer statuses include:
 
-Lead
+- Lead
+- Active
+- Inactive
 
-Active
-
-Inactive
-
-3. Product & Inventory Management
+### 3. Product & Inventory Management
 
 The inventory module supports:
 
-Create products
+- Create products
+- Edit products
+- View products
+- Product search/filtering
+- SKU management
+- Category
+- Unit price
+- Current stock
+- Minimum stock level
+- Warehouse location
+- Stock IN operations
+- Stock movement history
+- Low-stock identification
 
-Edit products
+Stock-affecting operations use PostgreSQL transactions and row locking to maintain inventory consistency.
 
-View products
-
-Product search/filtering
-
-SKU management
-
-Category
-
-Unit price
-
-Current stock
-
-Minimum stock level
-
-Warehouse location
-
-Stock IN operations
-
-Stock movement history
-
-Low-stock identification
-
-Stock-affecting operations use PostgreSQL transactions and row lockingto maintain inventory consistency.
-
-4. Sales Challans
+### 4. Sales Challans
 
 The Sales Challan module supports:
 
-Create draft challan
+- Create draft challan
+- View challans
+- Confirm challan
+- Cancel draft challan
+- Customer selection
+- Product selection
+- Quantity management
+- Automatic challan numbering
+- Stock validation
+- Automatic stock reduction after confirmation
+- Stock OUT movement creation
+- Transaction rollback on failure
 
-View challans
+Challan Lifecycle:
 
-Confirm challan
-
-Cancel draft challan
-
-Customer selection
-
-Product selection
-
-Quantity management
-
-Automatic challan numbering
-
-Stock validation
-
-Automatic stock reduction after confirmation
-
-Stock OUT movement creation
-
-Transaction rollback on failure
-
-Challan Lifecycle
-
+```
 Create Draft
      |
      | Stock is NOT changed
@@ -186,17 +130,19 @@ Create Draft
      +--> Stock validation
      +--> Stock reduction
      +--> OUT movement
+```
 
-5. Product Snapshot
+### 5. Product Snapshot
 
-When a challan is created, product information relevant to thattransaction is stored as a snapshot.
+When a challan is created, product information relevant to that transaction is stored as a snapshot.
 
 For example:
 
-Product Name
-SKU
-Unit Price
-Quantity
+- Product Name
+- SKU
+- Unit Price
+- Quantity
+
 
 This preserves historical challan information even if the product'scurrent price or other details change later.
 
