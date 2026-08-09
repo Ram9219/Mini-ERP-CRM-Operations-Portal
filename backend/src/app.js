@@ -18,8 +18,10 @@ if (!process.env.SESSION_SECRET) {
   throw new Error('SESSION_SECRET is required');
 }
 
+
 const app = express();
 
+app.set('trust proxy', 1);
 app.use(express.json());
 
 const allowedOrigins = [
@@ -56,7 +58,8 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      path: '/',
     },
   })
 );
